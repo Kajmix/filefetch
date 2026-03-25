@@ -28,3 +28,10 @@ Like neofetch, but for files
     <li><b>get_last_modification_date</b> - like get_creation_date, uses the same functions.</li>
     <li><b>gap</b> - adds some "-" to make gap</li>
 </ul>
+
+# FAQ:
+<h6><b>Why filefetch don't show all metadata?</b></h6>
+<p>I want stay only with basic functions that are preinstalled with base [linux].</p>
+<p>That means filefetch (at this moment) can't show for example video metadata like duration etc etc.</p>
+<h6><b>Is filefetch works on Windows?</b></h6>
+<p>No.</p>

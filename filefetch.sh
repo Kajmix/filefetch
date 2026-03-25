@@ -1,6 +1,19 @@
 #!/bin/bash
 FILENAME="$1"
 
+#ASCII:
+ASCII=(
+    "@@@@@@@@@@@@"
+    "@@        @@"
+    "@@    @@  @@"
+    "@@  @@@@  @@"
+    "@@        @@"
+    "@@  @@@@  @@"
+    "@@        @@"
+    "@@@@@@@@@@@@"
+
+)
+
 # Colors:
 GREEN="\033[32m"
 RESET="\033[0m"
@@ -45,5 +58,5 @@ else
 fi
 #Print all data:
 for line in "${!INFO[@]}"; do
-    echo -e "${INFO[$line]}"
+    echo -e "${GREEN}${ASCII[$line]}$RESET  ${INFO[$line]}"
 done

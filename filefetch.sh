@@ -12,9 +12,6 @@ ASCII=(
     "@@  @@@@  @@"
     "@@        @@"
     "@@@@@@@@@@@@"
-    "            "
-    "            "
-    "            "
 )
 
 # Colors:
@@ -22,9 +19,18 @@ GREEN="\033[32m"
 RESET="\033[0m"
 
 #All stored data:
-INFO=(
-    "${GREEN}| File name:${RESET} ${BASENAME}"
-)
+INFO=()
+
+function get_name {
+    if [ -f "$path" ]; then
+        INFO+=("${GREEN}| File name:${RESET} ${BASENAME}")
+    elif [ -d "$path" ]; then
+        tmp="${path%/*}"
+        tmp="${tmp%/*}"
+        result="${tmp##*/}"
+        INFO+=("${GREEN}| Directory name:${RESET} ${result}")
+    fi
+}
 
 #Get photo resolution:
 function get_pixels {
@@ -33,9 +39,15 @@ function get_pixels {
 }
 
 #Get file size:
-function get_filesize {
-    FILESIZE=$(stat -c%s "$path" | numfmt --to=iec --suffix=B)
-    INFO+=("${GREEN}| File size:${RESET} ${FILESIZE}")
+function get_size {
+    if [ -f "$path" ]; then
+        FILESIZE=$(stat -c%s "$path" | numfmt --to=iec --suffix=B)
+        INFO+=("${GREEN}| File size:${RESET} ${FILESIZE}")
+    elif [ -d "$path" ]; then
+        DIRECTORY_SIZE=$(du -sb "$path" 2>/dev/null | cut -f1)
+        DIRECTORY_SIZE=$(numfmt --to=iec --suffix=B "$DIRECTORY_SIZE")
+        INFO+=("${GREEN}| Directory size:${RESET} ${DIRECTORY_SIZE}")
+    fi
 }
 
 function get_file_path {
@@ -59,11 +71,16 @@ function gap {
     INFO+=("${GREEN}|-------------------------------------${RESET}")
 }
 
+function get_all_files {
+    INFO+=("${GREEN}| Number of all files in directory:${RESET} $(find "$path" -type f | wc -l)")
+}
+# Section for files:
 if [ -f "$path" ]; then
     clear
+    get_name
     gap
     get_file_path
-    get_filesize
+    get_size
     #checks if file has extenction
     if [[ "$path" == *.* ]]; then
         get_extenction
@@ -74,12 +91,28 @@ if [ -f "$path" ]; then
     if [[ "$EXTENCTIONS" == "png" || "$EXTENCTIONS" == "jpg" || "$EXTENCTIONS" == "raw" || "$EXTENCTIONS" == "webp" ]]; then
         get_pixels
     fi
+elif [ -d "$path" ]; then
+    clear
+    get_name
+    gap
+    get_file_path
+    get_size
+    get_creation_date
+    get_last_modification_date
+    get_all_files
 else
     INFO=()
     INFO+=("File not found")
 fi
 #Print all data:
-for line in "${!INFO[@]}"; do
-    echo -e "${GREEN}${ASCII[$line]}$RESET  ${INFO[$line]}"
+max=${#ASCII[@]}
+if [ ${#INFO[@]} -gt $max ]; then
+    max=${#INFO[@]}
+fi
+
+for ((i=0; i<max; i++)); do
+    ascii="${ASCII[$i]}"
+    info="${INFO[$i]}"
+    echo -e "${GREEN}${ascii:-}""$RESET  ${info:-}"
 done
 echo

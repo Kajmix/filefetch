@@ -30,8 +30,8 @@ Like neofetch, but for files
 </ul>
 
 # FAQ:
-<h6><b>Why filefetch don't show all metadata?</b></h6>
+<h3><b>Why filefetch don't show all metadata?</b></h3>
 <p>I want stay only with basic functions that are preinstalled with base [linux].</p>
 <p>That means filefetch (at this moment) can't show for example video metadata like duration etc etc.</p>
-<h6><b>Is filefetch works on Windows?</b></h6>
+<h3><b>Is filefetch works on Windows?</b></h3>
 <p>No.</p>

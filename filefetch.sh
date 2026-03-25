@@ -3,7 +3,7 @@ path="$1"
 FILENAME="${path##*/}"
 BASENAME="${FILENAME%.*}"
 #ASCII:
-ASCII=(
+FILE_ASCII=(
     "@@@@@@@@@@@@"
     "@@        @@"
     "@@    @@  @@"
@@ -11,6 +11,17 @@ ASCII=(
     "@@        @@"
     "@@  @@@@  @@"
     "@@        @@"
+    "@@@@@@@@@@@@"
+)
+
+DIRECTORY_ASCII=(
+    "@@@@@@@@    "
+    "@      @@@@@"
+    "@          @"
+    "@  @@@@@@  @"
+    "@  @    @  @"
+    "@  @@@@@@  @"
+    "@          @"
     "@@@@@@@@@@@@"
 )
 
@@ -85,6 +96,14 @@ function gap {
 function get_all_files {
     INFO+=("${MAINCOLOR}| Number of all files in directory:${RESET} $(find "$path" -type f | wc -l)")
 }
+
+function get_ascii {
+    if [ -f "${path}" ]; then
+    SELECTED_ASCII=("${FILE_ASCII[@]}")
+    elif [ -d "${path}" ]; then
+        SELECTED_ASCII=("${DIRECTORY_ASCII[@]}")
+    fi
+}
 # Section for files:
 if [ -f "$path" ]; then
     clear
@@ -116,15 +135,18 @@ else
     gap
     INFO+=("${MAINCOLOR}|${RESET} File not found")
 fi
+
+get_ascii
+
 #Print all data:
-max=${#ASCII[@]}
+max=${#SELECTED_ASCII[@]}
 if [ ${#INFO[@]} -gt $max ]; then
     max=${#INFO[@]}
 fi
 
 for ((i=0; i<max; i++)); do
-    ascii="${ASCII[$i]}"
+    SELECTED_ASCII="${SELECTED_ASCII[$i]}"
     info="${INFO[$i]}"
-    echo -e "${MAINCOLOR}${ascii:-}""$RESET  ${info:-}"
+    echo -e "${MAINCOLOR}${SELECTED_ASCII:-}""$RESET  ${info:-}"
 done
 echo

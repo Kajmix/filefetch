@@ -48,15 +48,26 @@ WHITE="\033[37m"
 #Reset color:
 RESET="\033[0m"
 
+#=-=-=Config=-=-=-
+
 #Here u can set color:
 MAINCOLOR="${GREEN}"
 
+#false = just file name without extenction | true = file name with extenction
+Show_extenctions=false
+
+#=-=-=-=-=-=-=-=-=-=
 #All stored data:
 INFO=()
 
 function get_name {
     if [ -f "$path" ]; then
-        INFO+=("${MAINCOLOR}| File name:${RESET} ${BASENAME}")
+        if [ "${Show_extenctions}" == true ]; then
+            NAME="$FILENAME"
+        else
+            NAME="$BASENAME"
+        fi
+        INFO+=("${MAINCOLOR}| File name:${RESET} $NAME")
     elif [ -d "$path" ]; then
         tmp="${path%/*}"
         tmp="${tmp%/*}"

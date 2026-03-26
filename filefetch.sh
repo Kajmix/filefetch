@@ -14,15 +14,26 @@ FILE_ASCII=(
     "@@@@@@@@@@@@"
 )
 
-DIRECTORY_ASCII=(
-    "@@@@@@@@    "
-    "@      @@@@@"
-    "@          @"
-    "@  @@@@@@  @"
-    "@  @    @  @"
-    "@  @@@@@@  @"
-    "@          @"
+PHOTO_ASCII=(
     "@@@@@@@@@@@@"
+    "@@        @@"
+    "@@   ()   @@"
+    "@@  /||\  @@"
+    "@@   /\   @@"
+    "@@@@@@@@@@@@"
+    "@@@@@@@@@@@@"
+    "@@@@@@@@@@@@"
+)
+
+DIRECTORY_ASCII=(
+    "@@@@@@@@@@      "
+    "@        @@@@@@@"
+    "@              @"
+    "@   @@@@@@@@   @"
+    "@   @      @   @"
+    "@   @@@@@@@@   @"
+    "@              @"
+    "@@@@@@@@@@@@@@@@"
 )
 
 # Colors:
@@ -94,12 +105,16 @@ function gap {
 }
 
 function get_all_files {
-    INFO+=("${MAINCOLOR}| Number of all files in directory:${RESET} $(find "$path" -type f | wc -l)")
+    INFO+=("${MAINCOLOR}| Number of all files in directory:${RESET} $(find "$path" -type f -printf '.' | wc -c)")
 }
 
 function get_ascii {
     if [ -f "${path}" ]; then
-    SELECTED_ASCII=("${FILE_ASCII[@]}")
+        if file --mime-type "$path" | grep -qE 'image/(jpeg|png|gif|webp|bmp|tiff)'; then
+            SELECTED_ASCII=("${PHOTO_ASCII[@]}")
+        else
+            SELECTED_ASCII=("${FILE_ASCII[@]}")
+        fi
     elif [ -d "${path}" ]; then
         SELECTED_ASCII=("${DIRECTORY_ASCII[@]}")
     fi

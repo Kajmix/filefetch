@@ -36,6 +36,10 @@ Like neofetch, but for files
 <h3><b>Is filefetch works on Windows?</b></h3>
 <p>No.</p>
 
+<br />
+<br />
+<br />
+
 Filefetch License (Non-Commercial)
 
 Copyright (c) 2024-2026 Kajmix

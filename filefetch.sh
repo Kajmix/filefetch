@@ -64,7 +64,7 @@ RESET="\033[0m"
 MAINCOLOR="${GREEN}"
 
 #false = just file name without extenction | true = file name with extenction
-Show_extenctions=false
+Show_extensions=false
 
 #=-=-=-=-=-=-=-=-=-=
 #All stored data:
@@ -72,7 +72,7 @@ INFO=()
 
 function get_name {
     if [ "${IsFile}" == true ]; then
-        if [ "${Show_extenctions}" == true ]; then
+        if [ "${Show_extensions}" == true ]; then
             NAME="$FILENAME"
         else
             NAME="$BASENAME"
@@ -109,8 +109,8 @@ function get_file_path {
 }
 
 function get_extenction {
-    EXTENCTIONS="${path##*.}"
-    INFO+=("${MAINCOLOR}| File type:${RESET} ${EXTENCTIONS}")
+    EXTENSIONS="${path##*.}"
+    INFO+=("${MAINCOLOR}| File type:${RESET} ${EXTENSIONS}")
 }
 
 function get_creation_date {
@@ -154,7 +154,7 @@ if [ "${IsFile}" == true ]; then
     # INFO+=("${MAINCOLOR}| Author:${RESET} $(stat -c %U "$path")")
     get_creation_date
     get_last_modification_date
-    if [[ "$EXTENCTIONS" == "png" || "$EXTENCTIONS" == "jpg" || "$EXTENCTIONS" == "raw" || "$EXTENCTIONS" == "webp" ]]; then
+    if [[ "$EXTENSIONS" == "png" || "$EXTENSIONS" == "jpg" || "$EXTENSIONS" == "raw" || "$EXTENSIONS" == "webp" ]]; then
         get_pixels
     fi
 elif [ "${IsDirectory}" == true ]; then

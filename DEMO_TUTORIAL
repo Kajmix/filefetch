@@ -1,0 +1,8 @@
+1. Click the "code <>" button on my main page in filefetch repository.
+2. Make a github workspace.
+3. In terminal write "chmod +x ./filefetch.sh" - to make it runnable
+4. Test commands list:
+- "./filefetch.sh test_data/" - displays directory's info
+- "./filefetch.sh test_data/text.txt - displays text file's info
+- "./filefetch.sh test_data/picture.png" - displays picture's info
+- './filefetch.sh" - displays error

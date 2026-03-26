@@ -2,6 +2,16 @@
 path="$1"
 FILENAME="${path##*/}"
 BASENAME="${FILENAME%.*}"
+
+IsFile=false
+IsDirectory=false
+
+if [ -f "${path}" ]; then
+    IsFile=true
+elif [ -d "${path}" ]; then
+    IsDirectory=true
+fi
+
 #ASCII:
 FILE_ASCII=(
     "@@@@@@@@@@@@"
@@ -61,14 +71,14 @@ Show_extenctions=false
 INFO=()
 
 function get_name {
-    if [ -f "$path" ]; then
+    if [ "${IsFile}" == true ]; then
         if [ "${Show_extenctions}" == true ]; then
             NAME="$FILENAME"
         else
             NAME="$BASENAME"
         fi
         INFO+=("${MAINCOLOR}| File name:${RESET} $NAME")
-    elif [ -d "$path" ]; then
+    elif [ "${IsDirectory}" == true ]; then
         tmp="${path%/*}"
         tmp="${tmp%/*}"
         result="${tmp##*/}"
@@ -84,10 +94,10 @@ function get_pixels {
 
 #Get file size:
 function get_size {
-    if [ -f "$path" ]; then
+    if [ "${IsFile}" == true ]; then
         FILESIZE=$(stat -c%s "$path" | numfmt --to=iec --suffix=B)
         INFO+=("${MAINCOLOR}| File size:${RESET} ${FILESIZE}")
-    elif [ -d "$path" ]; then
+    elif [ "${IsDirectory}" == true ]; then
         DIRECTORY_SIZE=$(du -sb "$path" 2>/dev/null | cut -f1)
         DIRECTORY_SIZE=$(numfmt --to=iec --suffix=B "$DIRECTORY_SIZE")
         INFO+=("${MAINCOLOR}| Directory size:${RESET} ${DIRECTORY_SIZE}")
@@ -120,18 +130,18 @@ function get_all_files {
 }
 
 function get_ascii {
-    if [ -f "${path}" ]; then
+    if [ "${IsFile}" == true ]; then
         if file --mime-type "$path" | grep -qE 'image/(jpeg|png|gif|webp|bmp|tiff)'; then
             SELECTED_ASCII=("${PHOTO_ASCII[@]}")
         else
             SELECTED_ASCII=("${FILE_ASCII[@]}")
         fi
-    elif [ -d "${path}" ]; then
+    elif [ "${IsDirectory}" == true ]; then
         SELECTED_ASCII=("${DIRECTORY_ASCII[@]}")
     fi
 }
 # Section for files:
-if [ -f "$path" ]; then
+if [ "${IsFile}" == true ]; then
     clear
     get_name
     gap
@@ -147,7 +157,7 @@ if [ -f "$path" ]; then
     if [[ "$EXTENCTIONS" == "png" || "$EXTENCTIONS" == "jpg" || "$EXTENCTIONS" == "raw" || "$EXTENCTIONS" == "webp" ]]; then
         get_pixels
     fi
-elif [ -d "$path" ]; then
+elif [ "${IsDirectory}" == true ]; then
     clear
     get_name
     gap
@@ -175,4 +185,4 @@ for ((i=0; i<max; i++)); do
     info="${INFO[$i]}"
     echo -e "${MAINCOLOR}${SELECTED_ASCII:-}""$RESET  ${info:-}"
 done
-echo
+echo ""

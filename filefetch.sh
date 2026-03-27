@@ -79,9 +79,7 @@ function get_name {
         fi
         INFO+=("${MAINCOLOR}| File name:${RESET} $NAME")
     elif [ "${IsDirectory}" == true ]; then
-        tmp="${path%/*}"
-        tmp="${tmp%/*}"
-        result="${tmp##*/}"
+        result=$(basename "$path")
         INFO+=("${MAINCOLOR}| Directory name:${RESET} ${result}")
     fi
 }

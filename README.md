@@ -21,12 +21,14 @@ Like neofetch, but for files
 <ul>
     <li><b>get_name</b> - has two varians, one for files, one for directory, trims path to get only name.</li>
     <li><b>get_pixels</b> - uses "file" function to get info about picture and grep to cut only resolution info.</li>
-    <li><b>get_filesize</b> - uses "stat" function to get size (in bytes) and numfmt to change bytes to kb/mb/gb etc, also has two variants - for directories it uses du instead of stat.</li>
+    <li><b>get_size</b> - uses "stat" function to get size (in bytes) and numfmt to change bytes to kb/mb/gb etc, also has two variants - for directories it uses du instead of stat.</li>
     <li><b>get_file_path</b> - uses pwd and parameter to give full path to file.</li>
     <li><b>get_extenction</b> - cuts from path only extenction type (like png or txt).</li>
     <li><b>get_creation_date</b> - uses "stat" function to get raw data and "date" to add data to the pattern.</li>
     <li><b>get_last_modification_date</b> - like get_creation_date, uses the same functions.</li>
     <li><b>gap</b> - adds some "-" to make gap</li>
+    <li><b>get_all_files‎</b> - uses "find [path] -f" and wc to get number of files in the directory.</li>
+    <li><b>get_ascii</b> - selects with ascii (photo/file/directory) should be displayed.</li>
 </ul>
 
 # FAQ:
